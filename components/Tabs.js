@@ -16,7 +16,7 @@ axios.get("https://lambda-times-api.herokuapp.com/topics")
 .then(
     (res) => {
     const topic_data = res.data;
-    console.log("pull data", topic_data);
+    // console.log("pull data", topic_data);
     makeTopic(topic_data)
 })
 
