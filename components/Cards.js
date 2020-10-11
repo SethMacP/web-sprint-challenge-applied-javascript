@@ -21,33 +21,42 @@
 //
 // Use your function to create a card for each of the articles, and append each card to the DOM.
 const cards_return = document.querySelector(".cards-container");
+console.log("Append Target", cards_return);
 
 
 axios.get("https://lambda-times-api.herokuapp.com/articles")
 //on success
 .then(result => {
-    console.log("success",result)
+    // console.log("success",result)
     //
     const article_data = result.data.articles;
-    console.log("Original object", article_data)
+    console.log("article data/the pull", article_data)
+    const article_data_topics = Object.keys(article_data);
+    console.log("keys", article_data_topics)
+    console.log("article_data.bootstrap", article_data.bootstrap);
+   //setup variables
+   const article_bootstrap = article_data.bootstrap;
+   const article_javascript = article_data.javascript
+   const article_jquery = article_data.jquery;
+   const article_node = article_data.node;
+   const article_technology = article_data.technology;
+   const article_holder = [
+       article_bootstrap, article_javascript,
+        article_jquery,   article_node,
+        article_technology]
+    //start itteration
+    console.log(article_holder);
+    article_holder.forEach(function(topicArray){
+        topicArray.forEach(function(ele){
+            cards_return.appendChild(makeCard(ele))
+        })
+    })
 
-
-
-    //
-    article_data.forEach((ele)=>{
-        ele.forEach(
-            cards_return.appendChild(makeCard(article_data))
-        )
-        
-    });
-    //
-    
-    
     })
 //on fail
 .catch(err=>console.log("Error", err));
 
-const makeCard = (arr) => {
+const makeCard = (obj) => {
 //create elements
     const card_div_main = document.createElement("div");
     const card_div_headline = document.createElement("div");
@@ -61,10 +70,10 @@ const makeCard = (arr) => {
     card_div_author.classList.add("author");
     card_div_img.classList.add("img-container");
 //attach content to each item
-    card_div_headline.textContent = arr.headline;
-    // card_div_author.textContent = arr.authorName;
-    card_img.src = arr.authorPhoto;
-    card_span.textContent = `By: ${arr.authorName}`;
+    card_div_headline.textContent = obj.headline;
+    // card_div_author.textContent = obj.authorName;
+    card_img.src = obj.authorPhoto;
+    card_span.textContent = `By: ${obj.authorName}`;
 
 //append together
     card_div_main.appendChild(card_div_headline);
